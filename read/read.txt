@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport otimizado para evitar zoom e ajustar a área segura do iPhone -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Schola da Mente – Bolhas da Matemática</title>
     <style>
@@ -10,11 +9,10 @@
            1. ESTILOS GERAIS & VARIÁVEIS
            ========================================= */
         :root {
-            /* Paleta Verde Caribe / Esmeralda */
+            /* Paleta Verde Caribe */
             --bg-surface: #2dd4bf;
             --bg-deep: #0d9488;
             --bg-abyss: #022c22;
-            
             --sand-light: #fef3c7;
             --sand-shadow: #d4a373;
             
@@ -26,10 +24,8 @@
             --text-light: #f0fdf4;
             
             --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            --ui-glass: rgba(6, 78, 59, 0.9);
-            
-            /* Efeitos */
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --ui-glass: rgba(6, 78, 59, 0.85);
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -39,35 +35,24 @@
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: var(--font-main);
             background: #022c22;
             color: var(--text-light);
-            /* Altura dinâmica para corrigir barra de endereço móvel */
-            height: 100vh;
-            height: 100dvh; 
-            width: 100vw;
+            height: 100dvh; width: 100vw;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
 
-        /* Tipografia Responsiva */
         h1 { 
             font-size: clamp(1.8rem, 5vw, 2.5rem); 
-            margin: 0; 
-            color: var(--accent-gold); 
-            text-align: center; 
+            margin: 0; color: var(--accent-gold); text-align: center; 
             text-shadow: 0 4px 10px rgba(0,0,0,0.8);
-            letter-spacing: 1px;
-            line-height: 1.2;
+            letter-spacing: 1px; line-height: 1.2;
         }
         h2 { 
-            font-size: clamp(1rem, 3vw, 1.3rem);
-            margin: 10px 0 20px 0; 
-            font-weight: 300; color: #ccfbf1; 
-            text-align: center; letter-spacing: 0.5px;
+            font-size: clamp(1rem, 3vw, 1.3rem); margin: 10px 0 20px 0; 
+            font-weight: 300; color: #ccfbf1; text-align: center;
         }
 
         /* =========================================
@@ -78,31 +63,27 @@
             border: 1px solid rgba(255,255,255,0.4);
             border-radius: 12px;
             color: #fff;
-            padding: 14px 20px;
-            font-size: 1.1rem;
+            padding: 14px 24px; /* Botão Principal Grande */
+            font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-            transition: all 0.2s ease;
+            transition: transform 0.1s;
             margin: 5px;
-            min-width: 120px;
             text-transform: uppercase;
-            /* Flexibilidade para não quebrar layout */
-            flex: 1 1 auto; 
-            max-width: 300px;
         }
+        button:active { transform: translateY(2px); }
 
-        button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
+        /* Botões Secundários (Controles do Jogo) - MENORES */
         button.secondary {
             background: linear-gradient(180deg, #115e59, #042f2e);
             border: 1px solid #2dd4bf;
-            font-size: 1rem;
-            padding: 12px 15px;
+            font-size: 0.9rem; /* Fonte menor */
+            padding: 8px 12px; /* Padding reduzido */
+            border-radius: 8px;
+            min-width: 80px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         button.hint-btn {
@@ -111,48 +92,35 @@
         }
 
         input[type="text"] {
-            padding: 15px;
-            font-size: 1.4rem;
-            border-radius: 12px;
+            padding: 15px; font-size: 1.4rem; border-radius: 12px;
             border: 2px solid var(--accent-gold);
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
-            color: #fff;
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 20px;
-            outline: none;
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(5px);
+            color: #fff; text-align: center; width: 100%; max-width: 400px;
+            margin-bottom: 20px; outline: none;
         }
-        input[type="text"]::placeholder { color: rgba(255,255,255,0.6); }
 
         /* =========================================
            3. AMBIENTE REALISTA
            ========================================= */
         #background-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 0;
             background: linear-gradient(to bottom, var(--bg-surface) 0%, var(--bg-deep) 40%, var(--bg-abyss) 100%);
-            overflow: hidden;
-            pointer-events: none;
+            overflow: hidden; pointer-events: none;
         }
 
         .caustics {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuMDIiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjEiLz48L3N2Zz4=');
-            opacity: 0.15;
-            mix-blend-mode: overlay;
-            animation: causticsMove 20s linear infinite;
-            transform: scale(2);
+            opacity: 0.15; mix-blend-mode: overlay;
+            animation: causticsMove 20s linear infinite; transform: scale(2);
         }
         @keyframes causticsMove { 0% { transform: translateY(0) scale(2); } 50% { transform: translateY(-20px) scale(2.1); } 100% { transform: translateY(0) scale(2); } }
 
         .sun-ray {
             position: absolute; top: -20%; left: 20%; width: 100px; height: 150%;
             background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
-            transform: rotate(-25deg);
-            filter: blur(15px);
+            transform: rotate(-25deg); filter: blur(15px);
             animation: rayPulse 8s infinite ease-in-out;
         }
         .sun-ray:nth-child(2) { left: 50%; width: 150px; animation-delay: 2s; }
@@ -174,8 +142,7 @@
         }
         .scenery-obj {
             position: absolute; bottom: 5%; z-index: 3;
-            opacity: 0.9;
-            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.6));
+            opacity: 0.9; filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.6));
         }
 
         #creatures-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; }
@@ -185,27 +152,23 @@
         }
 
         /* =========================================
-           4. HUD e ÁREA DE JOGO
+           4. HUD e ÁREA DE JOGO (LAYOUT OTIMIZADO)
            ========================================= */
         #screen-game { 
             background: transparent; 
-            /* Flex layout para o jogo fixo */
-            display: none; 
-            flex-direction: column;
-            justify-content: space-between;
-            width: 100%; height: 100%;
-            overflow: hidden; /* Jogo não pode ter scroll */
+            display: none; flex-direction: column; justify-content: space-between;
+            width: 100%; height: 100%; overflow: hidden;
         }
         #screen-game.active { display: flex; }
 
+        /* HUD Compacto */
         #game-hud {
             width: 100%;
-            background: linear-gradient(to bottom, rgba(6, 78, 59, 0.95), rgba(6, 78, 59, 0.8));
-            padding: 10px;
-            /* Padding top seguro para iPhone Notch */
-            padding-top: max(10px, env(safe-area-inset-top)); 
+            background: linear-gradient(to bottom, rgba(6, 78, 59, 0.98), rgba(6, 78, 59, 0.85));
+            padding: 5px 10px; /* Padding reduzido */
+            padding-top: max(5px, env(safe-area-inset-top)); 
             border-bottom: 1px solid rgba(255,255,255,0.15);
-            display: flex; flex-direction: column; gap: 5px;
+            display: flex; flex-direction: column; gap: 2px;
             box-shadow: var(--card-shadow);
             backdrop-filter: blur(4px);
             z-index: 100;
@@ -214,46 +177,46 @@
 
         .hud-top { 
             display: flex; justify-content: space-between; 
-            color: #99f6e4; font-size: 0.9rem; 
+            color: #99f6e4; font-size: 0.8rem; /* Fonte menor */
             text-transform: uppercase; letter-spacing: 1px; 
         }
         .hud-val { color: #fff; font-weight: bold; }
 
         .hud-main {
             display: flex; justify-content: center; align-items: flex-end; gap: 8px;
-            margin-top: 5px;
+            margin-top: 2px;
         }
 
         .hud-card {
             background: rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 12px;
-            padding: 5px 8px;
+            border-radius: 8px; /* Raio menor */
+            padding: 4px 6px;
             text-align: center;
-            min-width: 70px;
+            min-width: 60px;
             flex: 1;
         }
-        .hud-card label { font-size: 0.7rem; color: #ccfbf1; display: block; margin-bottom: 2px; }
-        .hud-card span { font-size: 1.4rem; font-weight: 700; color: #fff; }
+        .hud-card label { font-size: 0.65rem; color: #ccfbf1; display: block; margin-bottom: 1px; }
+        .hud-card span { font-size: 1.2rem; font-weight: 700; color: #fff; }
 
         .card-target {
             background: rgba(251, 191, 36, 0.15);
             border: 2px solid var(--accent-gold);
             transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
-            min-width: 110px;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+            min-width: 100px;
             flex: 1.5;
         }
-        .card-target span { color: var(--accent-gold); text-shadow: 0 0 10px rgba(251, 191, 36, 0.6); font-size: 2.2rem; line-height: 1; }
+        .card-target span { color: var(--accent-gold); text-shadow: 0 0 10px rgba(251, 191, 36, 0.6); font-size: 2rem; line-height: 1; }
         
         #math-guide {
-            margin-top: 3px; font-size: 1rem; color: #fef08a; font-weight: bold;
-            background: rgba(0,0,0,0.3); border-radius: 8px; padding: 2px 6px;
+            margin-top: 2px; font-size: 0.9rem; color: #fef08a; font-weight: bold;
+            background: rgba(0,0,0,0.3); border-radius: 6px; padding: 2px 4px;
         }
 
-        /* Bolhas */
+        /* AQUÁRIO - MAXIMIZADO */
         #game-aquarium { 
-            flex-grow: 1; 
+            flex-grow: 1; /* Ocupa todo espaço possível */
             position: relative; 
             z-index: 10; 
             overflow: hidden; 
@@ -263,7 +226,7 @@
         .bubble {
             position: absolute; border-radius: 50%;
             background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.2) 30%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.3) 100%);
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.6);
             box-shadow: inset 0 0 10px rgba(255,255,255,0.4), 0 5px 15px rgba(0,0,0,0.2);
             display: flex; justify-content: center; align-items: center;
             font-size: 2rem; font-weight: 800; color: #fff;
@@ -272,19 +235,18 @@
             touch-action: manipulation;
         }
         .bubble::after { content: ''; position: absolute; top: 15%; left: 15%; width: 25%; height: 15%; background: rgba(255,255,255,0.8); border-radius: 50%; transform: rotate(-45deg); }
+        .bubble:active { transform: scale(0.9); }
         
         .hint-glow {
             box-shadow: 0 0 30px #facc15, inset 0 0 20px #facc15 !important;
             border-color: #facc15 !important; animation: hintPulse 1s infinite;
         }
-        @keyframes hintPulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* Rodapé */
+        /* Rodapé Compacto */
         #game-footer {
             background: var(--ui-glass);
-            padding: 10px;
-            /* Padding inferior para iPhone Home Bar */
-            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            padding: 8px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
             border-top: 1px solid rgba(255,255,255,0.15);
             z-index: 100; text-align: center;
             flex-shrink: 0;
@@ -293,61 +255,48 @@
             display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; 
             width: 100%; max-width: 800px; margin: 0 auto;
         }
-        #phrase-area { min-height: 1.2em; font-style: italic; color: #99f6e4; margin-bottom: 5px; font-size: 1rem; }
+        #phrase-area { min-height: 1.1em; font-style: italic; color: #99f6e4; margin-bottom: 4px; font-size: 0.9rem; }
 
-        /* Toast */
+        /* EFEITOS ESPECIAIS */
         #toast-msg {
             position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
             background: rgba(6, 78, 59, 0.95); border: 1px solid var(--accent-gold);
             color: #fff; padding: 12px 20px; border-radius: 50px;
             font-size: 1.1rem; font-weight: bold; text-align: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.5s;
-            z-index: 200; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            width: 90%; max-width: 400px;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            z-index: 200; box-shadow: 0 5px 20px rgba(0,0,0,0.5); width: 90%; max-width: 350px;
         }
         #toast-msg.show { opacity: 1; }
         
-        .droplet { position: absolute; background: rgba(255, 255, 255, 0.8); border-radius: 50%; pointer-events: none; z-index: 50; }
-
-        /* CONFIGURAÇÃO & INTRO - CORREÇÃO DE ROLAGEM 
-           Usa display: block para permitir rolagem natural em telas pequenas
-        */
-        .screen { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            display: none; 
-            z-index: 200;
+        /* Gotículas e Estouro */
+        .droplet { 
+            position: absolute; background: radial-gradient(circle, #fff, #a5f3fc); 
+            border-radius: 50%; pointer-events: none; z-index: 50; 
+            box-shadow: 0 0 5px rgba(255,255,255,0.8);
         }
         
-        /* Intro e Config agora rolam nativamente */
-        #screen-intro, #screen-config {
-            background: rgba(2, 44, 34, 0.95);
-            backdrop-filter: blur(8px);
-            overflow-y: auto; /* Permite rolagem */
-            -webkit-overflow-scrolling: touch;
+        .pop-flash {
+            position: absolute; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+            transform: scale(0); animation: flashAnim 0.2s ease-out; pointer-events: none; z-index: 49;
         }
-        
-        #screen-intro.active, #screen-config.active {
-            display: block; /* Block permite que content maior que tela role */
-        }
+        @keyframes flashAnim { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
 
-        /* Wrapper para centralizar conteúdo quando possível, mas permitir scroll */
+        /* SCREENS & SCROLL */
+        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 200; }
+        #screen-intro, #screen-config { background: rgba(2, 44, 34, 0.95); backdrop-filter: blur(8px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        #screen-intro.active, #screen-config.active { display: block; }
+
         .scroll-wrapper {
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            padding-bottom: 100px; /* Espaço extra para não cortar no final */
-            box-sizing: border-box;
-            width: 100%;
+            min-height: 100%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 40px 20px; padding-bottom: 100px;
+            box-sizing: border-box; width: 100%;
         }
 
         .config-box {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 15px; padding: 15px; margin-bottom: 15px; 
-            width: 100%; max-width: 600px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 15px; padding: 15px; margin-bottom: 15px; width: 100%; max-width: 600px;
             text-align: center;
         }
         .config-label { color: var(--accent-gold); font-size: 1.1rem; display: block; margin-bottom: 8px; font-weight: 600; text-transform: uppercase;}
@@ -363,7 +312,6 @@
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
-        /* Modal Ajuda */
         #modal-help {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 300;
@@ -371,8 +319,7 @@
         }
         .modal-content {
             background: #115e59; border: 1px solid #5eead4; border-radius: 20px;
-            padding: 25px; max-width: 600px; width: 100%; 
-            max-height: 85vh; overflow-y: auto;
+            padding: 25px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto;
         }
         .modal-step { margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; }
         .modal-step strong { color: var(--accent-gold); display: block; font-size: 1.1rem; margin-bottom: 5px; }
@@ -382,6 +329,7 @@
         @keyframes pulseAnim { 0% { transform: scale(1.05); } 50% { transform: scale(1.15); color: var(--accent-green); } 100% { transform: scale(1.05); } }
         .shake { animation: shakeAnim 0.4s ease-in-out; }
         @keyframes shakeAnim { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes hintPulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
     </style>
 </head>
@@ -421,7 +369,7 @@
         </div>
     </div>
 
-    <!-- TELA: INTRO (Com Scroll Wrapper) -->
+    <!-- TELA: INTRO -->
     <div id="screen-intro" class="screen active">
         <div class="scroll-wrapper">
             <h1>Schola da Mente<br>Bolhas da Matemática</h1>
@@ -432,7 +380,7 @@
         </div>
     </div>
 
-    <!-- TELA: CONFIGURAÇÃO (Com Scroll Wrapper) -->
+    <!-- TELA: CONFIGURAÇÃO -->
     <div id="screen-config" class="screen">
         <div class="scroll-wrapper">
             <h2 id="greeting-msg" style="color:#fff; font-size: 1.5rem; margin-bottom:20px;">Olá! Configure seu mergulho.</h2>
@@ -474,7 +422,7 @@
 
     <!-- TELA: JOGO -->
     <div id="screen-game" class="screen">
-        <!-- HUD -->
+        <!-- HUD Compacto -->
         <div id="game-hud">
             <div class="hud-top">
                 <span>Mergulhador: <span id="ui-player" class="hud-val">Nome</span></span>
@@ -505,12 +453,12 @@
             </div>
         </div>
 
-        <!-- Área de Jogo -->
+        <!-- Aquário Maximize -->
         <div id="game-aquarium">
             <div id="toast-msg">Mensagem</div>
         </div>
 
-        <!-- Rodapé -->
+        <!-- Rodapé Compacto -->
         <div id="game-footer">
             <div id="phrase-area">Prepare-se para o mergulho...</div>
             <div class="controls-grid">
@@ -530,7 +478,7 @@
             <h2 style="color:var(--accent-gold); margin-top:0;">Guia de Mergulho</h2>
             <div class="modal-step">
                 <strong>1. O Número Alvo</strong>
-                <p>Observe o número em destaque. O guia abaixo mostra a conta (Ex: ? × ? = 20).</p>
+                <p>Observe o número em destaque. O guia abaixo mostra a conta.</p>
             </div>
             <div class="modal-step">
                 <strong>2. Bolhas de Oxigênio</strong>
@@ -540,10 +488,6 @@
                 <strong>3. Complete a Missão</strong>
                 <p>Faça o valor atual igualar o alvo para ganhar moedas!</p>
             </div>
-            <div class="modal-step">
-                <strong>Dica:</strong>
-                <p>Se estiver difícil, use o botão "Dica" para iluminar uma bolha correta.</p>
-            </div>
             <div style="text-align: center;">
                 <button onclick="toggleHelp()">Entendi</button>
             </div>
@@ -552,7 +496,6 @@
 
     <!-- LÓGICA -->
     <script>
-        // CONFIGURAÇÃO
         const state = {
             name: '', coins: 0, score: 0,
             op: 'soma', diff: 'iniciante', speed: 'lenta',
@@ -561,14 +504,7 @@
             bubbles: [], bubbleId: 0
         };
 
-        // Velocidade baseada apenas na escolha (pixels por frame aprox)
-        const SPEED_VALS = {
-            lenta: 0.5,
-            media: 1.5,
-            rapida: 2.8
-        };
-
-        // Configuração Matemática
+        const SPEED_VALS = { lenta: 0.5, media: 1.5, rapida: 2.8 };
         const SETTINGS = {
             iniciante: { maxB: 6, numMax: 10 },
             medio: { maxB: 9, numMax: 15 },
@@ -682,72 +618,41 @@
         function nextLevel() {
             const diff = state.diff;
             let n1, n2;
-
-            // GERAÇÃO DE ALVO COM BASE NO NÍVEL
             if(state.op === 'mult') {
-                if(diff === 'iniciante') {
-                    // Tabuada simples (2 a 5)
-                    n1 = Math.floor(Math.random() * 4) + 2; 
-                    n2 = Math.floor(Math.random() * 4) + 2; 
-                } else if(diff === 'medio') {
-                    // Tabuada média (2 a 9)
-                    n1 = Math.floor(Math.random() * 8) + 2; 
-                    n2 = Math.floor(Math.random() * 8) + 2; 
-                } else {
-                    // Avançado (3 a 12)
-                    n1 = Math.floor(Math.random() * 10) + 3; 
-                    n2 = Math.floor(Math.random() * 10) + 3; 
-                }
+                if(diff === 'iniciante') { n1 = Math.floor(Math.random()*4)+2; n2 = Math.floor(Math.random()*4)+2; }
+                else if(diff === 'medio') { n1 = Math.floor(Math.random()*8)+2; n2 = Math.floor(Math.random()*8)+2; }
+                else { n1 = Math.floor(Math.random()*10)+3; n2 = Math.floor(Math.random()*10)+3; }
                 state.target = n1 * n2;
             } 
             else if (state.op === 'soma') {
                 const range = diff === 'iniciante' ? [5, 20] : (diff === 'medio' ? [15, 50] : [30, 99]);
-                state.target = Math.floor(Math.random() * (range[1]-range[0])) + range[0];
-                n1 = Math.floor(state.target / 2); n2 = state.target - n1;
+                state.target = Math.floor(Math.random()*(range[1]-range[0])) + range[0];
+                n1 = Math.floor(state.target/2); n2 = state.target - n1;
             }
             else if (state.op === 'div') {
-                // Para divisão, o alvo é o resultado (quociente)
-                state.target = Math.floor(Math.random() * (diff === 'iniciante' ? 5 : 8)) + 2;
-                n2 = Math.floor(Math.random() * 4) + 2; // Divisor
-                n1 = state.target * n2; // Dividendo
+                state.target = Math.floor(Math.random()*(diff==='iniciante'?5:8))+2;
+                n2 = Math.floor(Math.random()*4)+2; n1 = state.target * n2;
             }
-
             document.getElementById('ui-target').innerText = state.target;
             resetSelection();
-            
-            // Spawnar bolhas que resolvem
-            setTimeout(() => {
-                spawnBubble(n1); 
-                setTimeout(() => spawnBubble(n2), 600);
-            }, 500);
+            setTimeout(() => { spawnBubble(n1); setTimeout(() => spawnBubble(n2), 600); }, 500);
         }
 
         function updateMathGuide() {
             const opSym = state.op === 'soma' ? '+' : (state.op === 'mult' ? '×' : '÷');
             const target = state.target;
             let text = "";
+            if (state.selected.length === 0) text = `? ${opSym} ? = ${target}`;
+            else if (state.selected.length === 1) text = `${state.selected[0]} ${opSym} ? = ${target}`;
+            else text = `${state.selected.join(' ' + opSym + ' ')} = ${target}`;
             
-            if (state.selected.length === 0) {
-                text = `? ${opSym} ? = ${target}`;
-            } else if (state.selected.length === 1) {
-                text = `${state.selected[0]} ${opSym} ? = ${target}`;
-            } else {
-                // Mostra a conta feita
-                text = `${state.selected.join(' ' + opSym + ' ')} = ${target}`;
-            }
-            
-            if (state.op === 'soma' && state.selected.length > 0) {
-                 // Para soma com multiplas bolhas
-                 text = `${state.selected.join(' + ')} + ? = ${target}`;
-            }
-
+            if (state.op === 'soma' && state.selected.length > 0) text = `${state.selected.join(' + ')} + ? = ${target}`;
             document.getElementById('math-guide').innerText = text;
         }
 
         function bubbleSpawner() {
             if(!state.isPlaying) return;
             const cfg = SETTINGS[state.diff];
-            
             if(state.bubbles.length < cfg.maxB) {
                 let val;
                 if(Math.random() < 0.4) val = getHelpfulNumber();
@@ -760,19 +665,15 @@
         function getHelpfulNumber() {
             const cur = state.current || 0;
             const t = state.target;
-            const diff = state.diff;
-            const max = SETTINGS[diff].numMax;
-
+            const max = SETTINGS[state.diff].numMax;
             if(state.op === 'soma') {
                 const need = t - cur;
                 if(need > 0 && need <= max) return need;
-                return Math.floor(Math.random() * t) + 1;
+                return Math.floor(Math.random()*t)+1;
             }
             if(state.op === 'mult') {
                 if(cur === 0) return 1;
-                // Se já tem um fator, tenta achar o outro
                 if(t % cur === 0) return t / cur;
-                // Se não, retorna um fator do alvo
                 for(let i=2; i<=max; i++) if(t % i === 0) return i;
             }
             if(state.op === 'div') {
@@ -793,28 +694,21 @@
             b.style.left = Math.floor(Math.random() * (tank.clientWidth - size)) + 'px';
             b.style.bottom = -size + 'px';
 
-            // VELOCIDADE FIXA PELA ESCOLHA (INDEPENDENTE DA MATEMÁTICA)
             const spdBase = SPEED_VALS[state.speed];
             const variance = Math.random() * 0.4 + 0.8;
             const finalSpeed = spdBase * variance * (window.innerHeight/800);
 
-            const obj = {
-                id: state.bubbleId++, el: b, val: val, y: -size,
-                sp: finalSpeed
-            };
-
+            const obj = { id: state.bubbleId++, el: b, val: val, y: -size, sp: finalSpeed };
             const hit = (e) => {
                 e.preventDefault(); e.stopPropagation();
                 popBubble(obj, e.clientX||e.touches[0].clientX, e.clientY||e.touches[0].clientY);
             };
             b.onmousedown = hit; b.ontouchstart = hit;
-
             tank.appendChild(b);
             state.bubbles.push(obj);
         }
 
         function showHint() {
-            // Encontrar bolha útil
             const helpful = state.bubbles.find(b => {
                if (state.op === 'soma') return (state.current || 0) + b.val <= state.target;
                if (state.op === 'mult') {
@@ -827,7 +721,6 @@
                }
                return false;
             });
-
             if (helpful) {
                 helpful.el.classList.add('hint-glow');
                 setTimeout(() => helpful.el.classList.remove('hint-glow'), 2000);
@@ -836,9 +729,19 @@
             }
         }
 
-        function createDroplets(x, y) {
-            const colors = ['#a5f3fc', '#ffffff', '#22d3ee'];
-            for(let i=0; i<12; i++) {
+        /* EFEITO ESTUPIM (GOTAS + FLASH) */
+        function createBurst(x, y) {
+            // Flash
+            const flash = document.createElement('div');
+            flash.className = 'pop-flash';
+            flash.style.width = '50px'; flash.style.height = '50px';
+            flash.style.left = (x - 25) + 'px'; flash.style.top = (y - 25) + 'px';
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 250);
+
+            // Gotas
+            const colors = ['#ffffff', '#a5f3fc', '#22d3ee'];
+            for(let i=0; i<15; i++) {
                 const d = document.createElement('div');
                 d.className = 'droplet';
                 const size = Math.random() * 6 + 4;
@@ -846,12 +749,13 @@
                 d.style.background = colors[Math.floor(Math.random() * colors.length)];
                 d.style.left = x + 'px'; d.style.top = y + 'px';
                 document.body.appendChild(d);
+                
                 const angle = Math.random() * Math.PI * 2;
-                const dist = Math.random() * 60 + 20;
+                const dist = Math.random() * 80 + 30; // Explosão maior
                 d.animate([
                     { transform: 'translate(0, 0) scale(1)', opacity: 1 },
                     { transform: `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) scale(0)`, opacity: 0 }
-                ], { duration: 500, easing: 'ease-out' }).onfinish = () => d.remove();
+                ], { duration: 400 + Math.random()*200, easing: 'ease-out' }).onfinish = () => d.remove();
             }
         }
 
@@ -861,7 +765,7 @@
             state.bubbles.splice(idx, 1);
             obj.el.remove();
             playSound('pop');
-            createDroplets(x, y);
+            createBurst(x, y);
             calc(obj.val);
         }
 
@@ -884,7 +788,6 @@
             state.selected.push(val);
             let res = 0;
             const sel = state.selected;
-            
             if(state.op === 'soma') res = sel.reduce((a,b)=>a+b,0);
             if(state.op === 'mult') res = sel.reduce((a,b)=>a*b,1);
             if(state.op === 'div') {
@@ -894,7 +797,6 @@
                     if(!Number.isInteger(res)) return fail("Divisão não exata");
                 }
             }
-
             state.current = res;
             document.getElementById('ui-current').innerText = res;
             updateMathGuide();
@@ -906,40 +808,30 @@
 
         function success() {
             playSound('win');
-            state.score++;
-            state.coins += 5;
+            state.score++; state.coins += 5;
             localStorage.setItem('sm_coins', state.coins);
-            
             document.getElementById('ui-score').innerText = state.score;
             document.getElementById('ui-coins').innerText = state.coins;
-            
             const ct = document.getElementById('card-target');
-            ct.classList.add('pulse');
-            setTimeout(()=>ct.classList.remove('pulse'), 500);
-            
+            ct.classList.add('pulse'); setTimeout(()=>ct.classList.remove('pulse'), 500);
             showToast("Alvo atingido! +5 Moedas");
             setTimeout(nextLevel, 1000);
         }
 
         function fail(msg) {
-            playSound('err');
-            showToast(msg);
+            playSound('err'); showToast(msg);
             document.getElementById('ui-current').classList.add('shake');
             setTimeout(resetSelection, 1000);
         }
 
         function resetSelection() {
-            state.selected = [];
-            state.current = null;
+            state.selected = []; state.current = null;
             document.getElementById('ui-current').innerText = '0';
             document.getElementById('ui-current').classList.remove('shake');
             updateMathGuide();
         }
 
-        function skipTarget() {
-            resetSelection();
-            nextLevel();
-        }
+        function skipTarget() { resetSelection(); nextLevel(); }
 
         function playSound(type) {
             if(!state.sound) return;
@@ -950,11 +842,12 @@
             const t = audioCtx.currentTime;
 
             if(type === 'pop') {
-                o.frequency.setValueAtTime(300, t);
-                o.frequency.linearRampToValueAtTime(600, t+0.1);
-                g.gain.setValueAtTime(0.1, t);
-                g.gain.linearRampToValueAtTime(0, t+0.1);
-                o.start(t); o.stop(t+0.1);
+                // Som de Pop curto e percussivo
+                o.frequency.setValueAtTime(400, t);
+                o.frequency.exponentialRampToValueAtTime(800, t+0.08);
+                g.gain.setValueAtTime(0.3, t);
+                g.gain.exponentialRampToValueAtTime(0.01, t+0.08);
+                o.start(t); o.stop(t+0.08);
             } else if(type === 'win') {
                 [440, 554, 659].forEach((f,i)=>{
                     const o2 = audioCtx.createOscillator();
@@ -983,8 +876,7 @@
 
         function showToast(msg) {
             const t = document.getElementById('toast-msg');
-            t.innerText = msg;
-            t.classList.add('show');
+            t.innerText = msg; t.classList.add('show');
             setTimeout(()=>t.classList.remove('show'), 2000);
         }
 
